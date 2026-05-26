@@ -2,4 +2,6 @@
     border: 1px solid black;
     max-height: 90vh;
     max-width: 100%;
+    background-image: url("images/Background7.png");
+    background-size: cover;
 }
