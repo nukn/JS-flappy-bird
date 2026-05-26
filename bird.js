@@ -64,6 +64,7 @@
 		ctx.restore();
 	}
 
+/*
 	function loop(now) {
 		const deltaTime = Math.min((now - previousTime) / 1000, 0.033);
 		previousTime = now;
@@ -73,6 +74,12 @@
 
 		requestAnimationFrame(loop);
 	}
+    requestAnimationFrame(loop);
+*/
 
-	requestAnimationFrame(loop);
+	window.Bird = { bird, update, draw, flap };
+    
 })();
+
+
+
