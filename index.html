@@ -14,7 +14,14 @@
 </head>
 <body>
     <h2>flappy bird</h2>
-    <canvas id="peliCanvas" width="480" height="640"></canvas>
+    <div class="game-shell">
+        <canvas id="peliCanvas" width="480" height="640"></canvas>
+        <div class="game-ui">
+            <button id="playBtn" class="ui-btn">Play</button>
+            <button id="restartBtn" class="ui-btn" hidden>Restart</button>
+            <div id="gameOverText" class="game-over" hidden>Game Over</div>
+        </div>
+    </div>
     
     
 </body>

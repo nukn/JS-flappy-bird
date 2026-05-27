@@ -1,7 +1,52 @@
+.game-shell {
+    position: relative;
+    width: fit-content;
+}
+
 #peliCanvas {
     border: 1px solid black;
     max-height: 90vh;
     max-width: 100%;
     background-image: url("images/Background7.png");
     background-size: cover;
+}
+
+.game-ui {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.ui-btn {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: auto;
+    border: 0;
+    border-radius: 999px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #ffcd38;
+    color: #1f1200;
+}
+
+#playBtn {
+    top: 46%;
+}
+
+#restartBtn {
+    top: 58%;
+}
+
+.game-over {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    text-align: center;
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 800;
+    text-shadow: 2px 2px 0 #000000;
 }
