@@ -17,7 +17,11 @@ function updatePipes(deltaTime) {
     pipes.forEach(pipe => {
         pipe.x -= PIPE_SPEED * deltaTime
     });
-    pipes = pipes.filter(pipe => pipe.x + PIPE_WIDTH > 0)
+    for (let i = pipes.length - 1; i >= 0; i--) {
+        if (pipes[i].x + PIPE_WIDTH <= 0) {
+            pipes.splice(i, 1)
+        }
+    }
 }
 
 function drawPipes() {

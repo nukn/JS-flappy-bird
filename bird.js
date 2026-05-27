@@ -108,6 +108,7 @@
 	}
 
 	window.Bird = { bird, update, draw, flap };
+
     
 })();
 
