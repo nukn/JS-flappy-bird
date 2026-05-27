@@ -5,6 +5,11 @@
 	}
 
 	const ctx = canvas.getContext("2d");
+	const birdImage = new Image();
+	birdImage.src = "images/Flappy Bird Assets 1.6 (Zip)/Flappy Bird Assets/Player/StyleBird2/Bird2-1.png";
+	const spriteFrameCount = 4;
+	const flapSequence = [0, 1, 2, 3, 2, 1];
+	const flapFrameDuration = 0.20;
 
 	const bird = {
 		x: canvas.width * 0.3,
@@ -18,7 +23,8 @@
 		rotation: 0
 	};
 
-	let previousTime = performance.now();
+	let flapTimer = 0;
+	let flapSequenceIndex = 0;
 
 	function flap() {
 		bird.velocityY = bird.flapStrength;
@@ -27,6 +33,12 @@
 	canvas.addEventListener("mousedown", flap);
 
 	function update(deltaTime) {
+		flapTimer += deltaTime;
+		if (flapTimer >= flapFrameDuration) {
+			flapTimer = 0;
+			flapSequenceIndex = (flapSequenceIndex + 1) % flapSequence.length;
+		}
+
 		bird.velocityY += bird.gravity * deltaTime;
 		if (bird.velocityY > bird.maxFallSpeed) {
 			bird.velocityY = bird.maxFallSpeed;
@@ -34,15 +46,15 @@
 
 		bird.y += bird.velocityY * deltaTime;
 
-		const top = bird.y - bird.height / 2;
-		const bottom = bird.y + bird.height / 2;
+		const birdTop = bird.y - bird.height / 2;
+		const birdBottom = bird.y + bird.height / 2;
 
-		if (top < 0) {
+		if (birdTop < 0) {
 			bird.y = bird.height / 2;
 			bird.velocityY = 0;
 		}
 
-		if (bottom > canvas.height) {
+		if (birdBottom > canvas.height) {
 			bird.y = canvas.height - bird.height / 2;
 			bird.velocityY = 0;
 		}
@@ -56,26 +68,44 @@
 
 		ctx.save();
 		ctx.translate(bird.x, bird.y);
-		ctx.fillStyle = "#ffd447";
-		ctx.beginPath();
-		ctx.arc(0, 0, bird.width / 2, 0, Math.PI * 2);
-		ctx.fill();
+		ctx.rotate(bird.rotation);
+
+		if (birdImage.complete && birdImage.naturalWidth > 0) {
+
+			const isStrip = birdImage.naturalWidth > birdImage.naturalHeight * 1.5;
+			if (isStrip) {
+				const frameWidth = Math.floor(birdImage.naturalWidth / spriteFrameCount);
+				const currentSpriteFrame = Math.min(flapSequence[flapSequenceIndex], spriteFrameCount - 1);
+				const sourceX = currentSpriteFrame * frameWidth;
+				ctx.drawImage(
+					birdImage,
+					sourceX,
+					0,
+					frameWidth,
+					birdImage.naturalHeight,
+					-bird.width / 2,
+					-bird.height / 2,
+					bird.width,
+					bird.height
+				);
+			} else {
+				ctx.drawImage(
+					birdImage,
+					-bird.width / 2,
+					-bird.height / 2,
+					bird.width,
+					bird.height
+				);
+			}
+		} else {
+			ctx.fillStyle = "#ffd447";
+			ctx.beginPath();
+			ctx.arc(0, 0, bird.width / 2, 0, Math.PI * 2);
+			ctx.fill();
+		}
 
 		ctx.restore();
 	}
-
-/*
-	function loop(now) {
-		const deltaTime = Math.min((now - previousTime) / 1000, 0.033);
-		previousTime = now;
-
-		update(deltaTime);
-		draw();
-
-		requestAnimationFrame(loop);
-	}
-    requestAnimationFrame(loop);
-*/
 
 	window.Bird = { bird, update, draw, flap };
     
