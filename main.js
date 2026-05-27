@@ -2,18 +2,13 @@ let previousTime = performance.now();
 let score = 0
 let gameStarted = false
 let gameOver = false
+let pipeInterval = null
 
 const canvas = document.getElementById("peliCanvas")
 const playBtn = document.getElementById("playBtn")
 const restartBtn = document.getElementById("restartBtn")
 const gameOverText = document.getElementById("gameOverText")
 
-setInterval(() => {
-    if (!gameStarted || gameOver) {
-        return
-    }
-    Pipes.spawnPipe()
-}, 2000)
 
 function resetGameState() {
     score = 0
@@ -47,12 +42,20 @@ function startGame() {
     playBtn.hidden = true
     restartBtn.hidden = true
     gameOverText.hidden = true
+
+    if (pipeInterval) clearInterval(pipeInterval)
+    pipeInterval = setInterval(() => {
+        if (!gameStarted || gameOver) return
+        Pipes.spawnPipe()
+    }, 2000)
+
 }
 
 playBtn?.addEventListener("click", startGame)
 restartBtn?.addEventListener("click", startGame)
 
 showIdleUI()
+
 
 function checkCollision() {
     const bird = Bird.bird
