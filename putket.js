@@ -3,6 +3,11 @@ const PIPE_GAP = 160
 const PIPE_SPEED = 200
 
 let pipes = []
+const pipeImg = new Image()
+pipeImg.src = "images/PipeStyle1.png"
+
+const PIPE_ROW = 1
+const PIPE_COL = 2
 
 function spawnPipe() {
     const c = document.getElementById("peliCanvas")
@@ -27,11 +32,25 @@ function updatePipes(deltaTime) {
 function drawPipes() {
     const c = document.getElementById("peliCanvas")
     const ctx = c.getContext("2d")
-    ctx.fillStyle = "green"
 
     pipes.forEach(pipe => {
-        ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY - PIPE_GAP / 2);
-        ctx.fillRect(pipe.x, pipe.gapY + PIPE_GAP / 2, PIPE_WIDTH, c.height);
+        const topHeight = pipe.gapY - PIPE_GAP / 2
+        const bottomY = pipe.gapY + PIPE_GAP / 2
+        const bottomHeight = c.height - bottomY
+
+        const srcW = pipeImg.width / 4
+        const srcH = pipeImg.height / 2
+        const srcX = PIPE_COL * srcW
+        const srcY = PIPE_ROW * srcH
+
+        ctx.save()
+        ctx.translate(pipe.x, topHeight)
+        ctx.scale(1, -1)
+        ctx.drawImage(pipeImg, srcX, srcY, srcW, srcH, 0, 0, PIPE_WIDTH, topHeight)
+        ctx.restore()
+
+
+        ctx.drawImage(pipeImg, srcX, srcY, srcW, srcH, pipe.x, bottomY, PIPE_WIDTH, bottomHeight)
     });
 }
 
