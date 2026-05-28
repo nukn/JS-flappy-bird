@@ -1,3 +1,7 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+}
+
 .game-shell {
     position: relative;
     width: fit-content;
@@ -9,7 +13,6 @@
     max-width: 100%;
     background-image: url("images/Background7.png");
     background-size: cover;
-    align: center;
 }
 
 .game-ui {
@@ -50,4 +53,19 @@
     font-size: 42px;
     font-weight: 800;
     text-shadow: 2px 2px 0 #000000;
+}
+
+#scoreText {
+    font-size: 66px;
+    font-weight: 800;
+    color: #000000;
+    text-align: right;
+    padding: 20px;
+    
+}
+
+#highScoreText {
+    padding-top: 10px;
+    padding-left: 6px;
+    size: 10px;
 }

@@ -9,9 +9,13 @@ const playBtn = document.getElementById("playBtn")
 const restartBtn = document.getElementById("restartBtn")
 const gameOverText = document.getElementById("gameOverText")
 
+const scoreText = document.getElementById("scoreText")
+const highScoreText = document.getElementById("highScoreText")
+let highScore = 0
 
 function resetGameState() {
     score = 0
+    scoreText.textContent = 0
     previousTime = performance.now()
     gameOver = false
 
@@ -31,6 +35,10 @@ function showIdleUI() {
 }
 
 function showGameOverUI() {
+    if (score > highScore) {
+        highScore = score
+        highScoreText.textContent = "High score: " + highScore
+    }
     playBtn.hidden = true
     restartBtn.hidden = false
     gameOverText.hidden = false
@@ -84,6 +92,7 @@ function checkCollision() {
         if (!gameOver && !pipe.passed && pipe.x + PIPE_WIDTH < bird.x) {
             pipe.passed = true
             score++
+            scoreText.textContent = score
             console.log("pisteet:", score)
         }
     }
