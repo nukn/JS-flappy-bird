@@ -75,6 +75,12 @@ function checkCollision() {
             return
         }
 
+        if (bird.y + radius >= canvas.height - Pipes.GROUND_HEIGHT && !gameOver) {
+            gameOver = true
+            showGameOverUI()
+            return
+}
+
         if (!gameOver && !pipe.passed && pipe.x + PIPE_WIDTH < bird.x) {
             pipe.passed = true
             score++
@@ -96,6 +102,7 @@ function loop(now) {
 
     Bird.draw();
     Pipes.drawPipes();
+    Pipes.drawGround();
 
     
 

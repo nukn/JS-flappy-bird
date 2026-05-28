@@ -1,10 +1,14 @@
 const PIPE_WIDTH = 60
 const PIPE_GAP = 160
 const PIPE_SPEED = 200
+const GROUND_HEIGHT = 40
 
 let pipes = []
 const pipeImg = new Image()
 pipeImg.src = "images/PipeStyle1.png"
+
+const groundImg = new Image()
+groundImg.src = "images/ground.png"
 
 const PIPE_ROW = 1
 const PIPE_COL = 2
@@ -29,6 +33,22 @@ function updatePipes(deltaTime) {
     }
 }
 
+function drawGround() {
+    const c = document.getElementById("peliCanvas")
+    const ctx = c.getContext("2d")
+    const groundY = c.height - GROUND_HEIGHT
+
+    if (!groundImg.complete || groundImg.naturalWidth === 0) {
+        ctx.fillStyle = "#c8a96e"
+        ctx.fillRect(0, groundY, c.width, GROUND_HEIGHT)
+        return
+    }
+
+    for (let x = 0; x < c.width; x += 70) {
+        ctx.drawImage(groundImg, x, groundY, 70, GROUND_HEIGHT)
+    }
+}
+
 function drawPipes() {
     const c = document.getElementById("peliCanvas")
     const ctx = c.getContext("2d")
@@ -36,7 +56,7 @@ function drawPipes() {
     pipes.forEach(pipe => {
         const topHeight = pipe.gapY - PIPE_GAP / 2
         const bottomY = pipe.gapY + PIPE_GAP / 2
-        const bottomHeight = c.height - bottomY
+        const bottomHeight = (c.height - GROUND_HEIGHT) - bottomY
 
         const srcW = pipeImg.width / 4
         const srcH = pipeImg.height / 2
@@ -49,9 +69,8 @@ function drawPipes() {
         ctx.drawImage(pipeImg, srcX, srcY, srcW, srcH, 0, 0, PIPE_WIDTH, topHeight)
         ctx.restore()
 
-
         ctx.drawImage(pipeImg, srcX, srcY, srcW, srcH, pipe.x, bottomY, PIPE_WIDTH, bottomHeight)
     });
 }
 
-window.Pipes = { pipes, spawnPipe, updatePipes, drawPipes }
+window.Pipes = { pipes, spawnPipe, updatePipes, drawPipes, drawGround, GROUND_HEIGHT }
